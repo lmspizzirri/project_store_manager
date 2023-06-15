@@ -1,5 +1,5 @@
 const salesModel = require('../models/salesModel');
-const validateProductId = require('./validation/productIdValidation');
+const { validateProductId } = require('./validation/productIdValidation');
 
 const getAll = async () => {
     const result = await salesModel.getAll();

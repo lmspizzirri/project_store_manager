@@ -19,4 +19,16 @@ const create = async (name) => {
     };
 };
 
-module.exports = { getAll, getById, create };
+const update = async (items) => {
+    const query = 'UPDATE products SET (name) = ? WHERE id = (?)';
+    const [{ affectedRows }] = await connection.execute(query, [items.name, items.productId]);
+    return affectedRows;
+};
+
+const drop = async (id) => {
+    const query = 'DELETE FROM products WHERE id = (?)';
+    const [{ affectedRows }] = await connection.execute(query, [id]);
+    return affectedRows;
+};
+
+module.exports = { getAll, getById, create, update, drop };
