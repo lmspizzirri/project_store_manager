@@ -1,4 +1,5 @@
 const salesModel = require('../models/salesModel');
+const validateProductId = require('./validation/productIdValidation');
 
 const getAll = async () => {
     const result = await salesModel.getAll();
@@ -11,6 +12,10 @@ const getById = async (id) => {
 };
 
 const create = async (info) => {
+    const isProductIdValid = await validateProductId(info);
+    if (!isProductIdValid) {
+        return { type: 404, message: 'Product not found' };
+    }
     const result = await salesModel.create(info);
     return result;
 };
