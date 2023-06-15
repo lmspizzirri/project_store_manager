@@ -21,16 +21,17 @@ const create = async (req, res) => {
 const update = async (req, res) => {
     const { name } = req.body;
     const { id } = req.params;
-    const items = [{ name, productId: id }];
-    const result = await productsService.update(items);
-    res.status(201).json(result);
+    const items = { name, id };
+    const { type, message } = await productsService.update(items);
+    if (type) {
+        return res.status(type).json({ message });
+    }
+    return res.status(200).json({ id, name });
 };
 
 const drop = async (req, res) => {
     const { id } = req.params;
-    console.log(id);
     const { type, message } = await productsService.drop(id);
-    console.log(type, message);
     if (type) {
         return res.status(type).json({ message });
     }

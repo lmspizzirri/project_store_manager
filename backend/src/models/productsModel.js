@@ -20,8 +20,10 @@ const create = async (name) => {
 };
 
 const update = async (items) => {
-    const query = 'UPDATE products SET (name) = ? WHERE id = (?)';
-    const [{ affectedRows }] = await connection.execute(query, [items.name, items.productId]);
+    const query = 'UPDATE products SET name = ? WHERE id = (?)';
+    const { name } = items;
+    const { id } = items;
+    const [{ affectedRows }] = await connection.execute(query, [name, id]);
     return affectedRows;
 };
 
