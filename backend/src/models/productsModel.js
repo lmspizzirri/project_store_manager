@@ -28,4 +28,13 @@ const drop = async (id) => {
     return affectedRows;
 };
 
-module.exports = { getAll, getById, create, update, drop };
+const searchName = async (name) => {
+    const [result] = await connection.execute(
+      `SELECT * FROM products
+      WHERE name LIKE ?`,
+      [`%${name}%`],
+    );
+    return result;
+};
+
+module.exports = { getAll, getById, create, update, drop, searchName };

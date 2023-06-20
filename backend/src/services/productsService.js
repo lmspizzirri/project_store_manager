@@ -46,4 +46,16 @@ const drop = async (id) => {
     return { type: null };
 };
 
-module.exports = { getAll, getById, create, update, drop };
+const searchName = async (name) => {
+    if (!name || name === '') {
+      const allProducts = await productsModel.getAll();
+      return { type: 200, message: allProducts };
+    }
+    const result = await productsModel.searchName(name);
+    if (!result || result.length === 0) {
+      return { type: 200, message: [] };
+    }
+    return { type: 200, message: result };
+  };
+
+module.exports = { getAll, getById, create, update, drop, searchName };

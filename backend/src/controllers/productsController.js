@@ -38,4 +38,10 @@ const drop = async (req, res) => {
     return res.status(204).end();
 };
 
-module.exports = { getAll, getById, create, update, drop };
+const searchName = async (req, res) => {
+    const { q } = req.query;
+    const { type, message } = await productsService.searchName(q);
+    res.status(type).json(message);
+};
+
+module.exports = { getAll, getById, create, update, drop, searchName };

@@ -3,6 +3,7 @@ const productsController = require('../controllers/productsController');
 
 const productsRoute = Router();
 productsRoute.get('/', productsController.getAll);
+productsRoute.get('/search', productsController.searchName);
 productsRoute.get('/:id', productsController.getById);
 productsRoute.post('/', productsController.create);
 productsRoute.put('/:id', productsController.update);

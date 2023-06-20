@@ -30,6 +30,7 @@ describe('Testes da camada Service de Vendas', function () {
         });
     });
 
+    // Quebrou depois da refatoração, preciso ver!
     // describe('Teste da função create', () => {
     //     it('Retorna o id da venda criada', async () => {
     //         // ARRANGE

@@ -21,22 +21,6 @@ const create = async (products) => {
     return { type: null, message: result };
 };
 
-const update = async (id, itemsArray) => {
-    const isItemIdValid = await validateProductId(id);
-    if (!isItemIdValid) {
-      return { type: 404, message: 'Product not found' };
-    }
-  
-    const affectedRows = await salesModel.drop(id);
-    if (!affectedRows) {
-      return { type: 404, message: 'Sale not found' };
-    }
-    await Promise.all(itemsArray.map(async (item) => salesModel.create(id, item)));
-    const itemsUpdated = [...itemsArray];
-    const message = { saleId: id, itemsUpdated };
-    return { type: null, message };
-  };
-
 const drop = async (id) => {
     const result = await salesModel.drop(id);
     if (!result) {
@@ -45,4 +29,4 @@ const drop = async (id) => {
     return { type: null };
 };
 
-module.exports = { getAll, getById, create, drop, update };
+module.exports = { getAll, getById, create, drop };

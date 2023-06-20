@@ -4,7 +4,7 @@ const { expect } = chai;
 const sinon = require('sinon');
 const productsModel = require('../../../src/models/productsModel');
 const productsService = require('../../../src/services/productsService');
-const { productsMock } = require('../mocks/product.mock');
+const { productsMock, allProducts, searchResult } = require('../mocks/product.mock');
 
 describe('Testes da camada Service de Produtos', function () {
     afterEach(function () { return sinon.restore(); });
@@ -17,6 +17,35 @@ describe('Testes da camada Service de Produtos', function () {
             const result = await productsService.getAll();
             // ASSERT
             expect(result).to.be.deep.equal(productsMock);
+        });
+    });
+
+    describe('Teste da função searchName', function () {
+        it('Retorna a lista com todos os produtos', async function () {
+            // ARRANGE
+            sinon.stub(productsModel, 'searchName').resolves(allProducts);
+            // ACT
+            const result = await productsService.searchName('');
+            // ASSERT
+            expect(result).to.be.deep.equal({ type: 200, message: allProducts });
+        });
+
+        it('Retorna a lista vazia', async function () {
+            // ARRANGE
+            sinon.stub(productsModel, 'searchName').resolves([]);
+            // ACT
+            const result = await productsService.searchName('z');
+            // ASSERT
+            expect(result).to.be.deep.equal({ type: 200, message: [] });
+        });
+
+        it('Retorna resultado da pesquisa', async function () {
+            // ARRANGE
+            sinon.stub(productsModel, 'searchName').resolves(searchResult);
+            // ACT
+            const result = await productsService.searchName('martelo');
+            // ASSERT
+            expect(result).to.be.deep.equal({ type: 200, message: searchResult });
         });
     });
 
@@ -57,26 +86,26 @@ describe('Testes da camada Service de Produtos', function () {
             // ARRANGE
             sinon.stub(productsModel, 'update').resolves(1);
             // ACT
-            const result = await productsService.update({ name: 'ProdutoX', id: 7 });
+            const result = await productsService.update(7, 'ProdutoX');
             // ASSERT
-            expect(result).to.be.deep.equal({ type: null, message: { name: 'ProdutoX', id: 7 } });
+            expect(result).to.be.deep.equal({ type: null, message: { id: 7, name: 'ProdutoX' } });
         });
         it('Retorna erro de name', async function () {
             // ARRANGE
             sinon.stub(productsModel, 'update').resolves(1);
             // ACT
-            const result = await productsService.update({ name: 'Pro', id: 7 });
+            const result = await productsService.update(7, 'Prot');
              // ASSERT
-            expect(result).to.deep
-                .equal({ type: 422, message: 'name length must be at least 5 characters long' });
+            expect(result).to.be.deep
+                .equal({ type: 422, message: '"name" length must be at least 5 characters long' });
         });
         it('Retorna product not found', async function () {
             // ARRANGE
             sinon.stub(productsModel, 'update').resolves(0);
             // ACT
-            const result = await productsService.update({ name: 'ProdutoX', id: 99 });
+            const result = await productsService.update(99, 'ProdutoX');
              // ASSERT
-            expect(result).to.deep.equal({ type: 404, message: 'Product not found' });
+            expect(result).to.be.deep.equal({ type: 404, message: 'Product not found' });
         });
         it('Name check', async function () {
             // ARRANGE

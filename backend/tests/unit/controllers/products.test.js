@@ -7,7 +7,7 @@ const { expect } = chai;
 const sinon = require('sinon');
 const productsService = require('../../../src/services/productsService');
 const productsController = require('../../../src/controllers/productsController');
-const { productsMock } = require('../mocks/product.mock');
+const { productsMock, allProducts, searchResult } = require('../mocks/product.mock');
 
 const notFound = 'Product not found';
 
@@ -27,6 +27,51 @@ describe('Testes da camada controller de Produtos', function () {
             // ASSERT
             expect(res.status).to.be.calledWith(200);
             expect(res.json).to.be.calledWithExactly(productsMock);
+        });
+    });
+
+    describe('Teste da busca por Nome', function () {
+        it('Retorna a lista com todos os produtos', async function () {
+            const req = { query: { q: '' } };
+            const res = {};     
+            res.status = sinon.stub().returns(res);
+            res.json = sinon.stub().returns();   
+            // ARRANGE
+            sinon.stub(productsService, 'searchName').resolves({ type: 200, message: allProducts });
+            // ACT
+            await productsController.searchName(req, res);
+            // ASSERT
+            expect(res.status).to.be.calledWith(200);
+            expect(res.json).to.be.calledWithExactly(allProducts);
+        });
+
+        it('Retorna um array vazio', async function () {
+            const req = { query: { q: 'z' } };
+            const res = {};     
+            res.status = sinon.stub().returns(res);
+            res.json = sinon.stub().returns();   
+            // ARRANGE
+            sinon.stub(productsService, 'searchName').resolves({ type: 200, message: [] });
+            // ACT
+            await productsController.searchName(req, res);
+            // ASSERT
+            expect(res.status).to.be.calledWith(200);
+            expect(res.json).to.be.calledWithExactly([]);
+        });
+
+        it('Retorna o resultado da pesquisa', async function () {
+            const req = { query: { q: 'martelo' } };
+            const res = {};     
+            res.status = sinon.stub().returns(res);
+            res.json = sinon.stub().returns();   
+            // ARRANGE
+            sinon.stub(productsService, 'searchName')
+                .resolves({ type: 200, message: searchResult });
+            // ACT
+            await productsController.searchName(req, res);
+            // ASSERT
+            expect(res.status).to.be.calledWith(200);
+            expect(res.json).to.be.calledWithExactly(searchResult);
         });
     });
 
@@ -103,7 +148,8 @@ describe('Testes da camada controller de Produtos', function () {
             res.status = sinon.stub().returns(res);
             res.json = sinon.stub().returns();   
             // ARRANGE
-            sinon.stub(productsService, 'update').resolves({ type: null });
+            sinon.stub(productsService, 'update')
+                .resolves({ type: null, message: { id: 7, name: 'ProdutoX' } });
             // ACTz 
             await productsController.update(req, res);
             // ASSERT
