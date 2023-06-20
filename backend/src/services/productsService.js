@@ -12,28 +12,30 @@ const getById = async (id) => {
 };
 
 const create = async (name) => {
+    if(!name) {
+        return { type: '400', message: '"name" is required'}
+    }
     const { type, message } = nameValidation(name);
     if (type) {
         return { type, message };
     }
     const result = await productsModel.create(name);
-    return result;
+    return { type: null, message: { id: result, name: name } };
 };
 
-const update = async (items) => {
-    const { name } = items;
+const update = async (id, name) => {
     if (!name) {
-        return { type: 400, message: 'name is required' };
+        return { type: 400, message: '"name" is required' };
     }
     const { type, message } = await nameValidation(name);
     if (type) {
         return { type, message };
     }
-    const result = await productsModel.update(items);
+    const result = await productsModel.update(id, name);
     if (!result) {
         return { type: 404, message: 'Product not found' };
     }
-    return { type: null, message: { items } };
+    return { type: null, message: { id, name } };
 };
 
 const drop = async (id) => {

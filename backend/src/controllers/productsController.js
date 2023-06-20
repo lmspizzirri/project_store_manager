@@ -14,19 +14,19 @@ const getById = async (req, res) => {
 
 const create = async (req, res) => {
     const { name } = req.body;
-    const result = await productsService.create(name);
-    res.status(201).json(result);
+    const { type, message } = await productsService.create(name);
+    if (type) { return res.status(type).json({ message })} ;
+    return res.status(201).json(message);
 };
 
 const update = async (req, res) => {
     const { name } = req.body;
     const { id } = req.params;
-    const items = { name, id };
-    const { type, message } = await productsService.update(items);
+    const { type, message } = await productsService.update(Number(id), name);
     if (type) {
         return res.status(type).json({ message });
     }
-    return res.status(200).json({ id, name });
+    return res.status(200).json(message);
 };
 
 const drop = async (req, res) => {

@@ -7,18 +7,37 @@ const getAll = async (_req, res) => {
 
 const getById = async (req, res) => {
     const { id } = req.params;
-    const result = await salesService.getById(id);
-    if (result.length === 0) { return res.status(404).json({ message: 'Sale not found' }); }
-    res.status(200).json(result);
+    const { type, message } = await salesService.getById(id);
+    if (type) return res.status(type).json({ message });
+    return res.status(200).json(message);
 };
 
 const create = async (req, res) => {
     const info = req.body;
-    const result = await salesService.create(info);
-    res.status(201).json({
-        id: result.insertId,
+    const { type, message } = await salesService.create(info);
+    if (type) return res.status(type).json({ message });
+    return res.status(201).json({
+        id: message,
         itemsSold: info,
     });
 };
 
-module.exports = { getAll, getById, create };
+const update = async (req, res) => {
+    const { id } = req.params;
+    const itemsArray = req.body;
+    const { type, message } = await salesService.update(id, itemsArray);
+    if (type) return res.status(type).json({ message });
+    return res.status(200).json(message);
+  };
+  
+
+const drop = async (req, res) => {
+    const { id } = req.params;
+    const { type, message } = await salesService.drop(id);
+    if (type) {
+        return res.status(type).json({ message });
+    }
+    return res.status(204).end();
+};
+
+module.exports = { getAll, getById, create, drop, update };

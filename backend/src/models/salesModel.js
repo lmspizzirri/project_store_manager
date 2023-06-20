@@ -23,14 +23,19 @@ const getById = async (id) => {
 };
 
 const create = async (info) => {
-    const [{ productId, quantity }] = info;
     const querySales = 'INSERT INTO sales (date) VALUES (NOW())';
     const querySalesProducts = (
-        'INSERT INTO sales_products (product_id, sale_id, quantity) VALUES (?, ?, ?)');
-    const [{ insertId }] = await connection.execute(querySales);
-    const sold = await 
-        connection.execute(querySalesProducts, [productId, insertId, quantity]);
-    return { insertId, sold };
+        'INSERT INTO sales_products (product_id, sale_id, quantity) VALUES ')+info.map((_) => ('(?, ?, ?)')).join(', ')+';';
+        const [{ insertId }] = await connection.execute(querySales);
+    const params = info.flatMap((product) => [product.productId, insertId, product.quantity]);
+    await connection.execute(querySalesProducts, params);
+    return insertId;
 };
 
-module.exports = { getAll, getById, create };
+const drop = async (id) => {
+    const query = 'DELETE FROM sales WHERE id = (?)';
+    const [{ affectedRows }] = await connection.execute(query, [id]);
+    return affectedRows;
+};
+
+module.exports = { getAll, getById, create, drop };
