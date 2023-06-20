@@ -1,48 +1,46 @@
-const salesMock =
-[
+const salesMock = [
     {
-      "saleId": 10,
-      "date": "2023-06-20T00:25:14.000Z",
-      "productId": 7,
-      "quantity": 1
+      saleId: 10,
+      date: '2023-06-20T00:25:14.000Z',
+      productId: 7,
+      quantity: 1,
     },
     {
-      "saleId": 11,
-      "date": "2023-06-20T00:25:52.000Z",
-      "productId": 7,
-      "quantity": 1
+      saleId: 11,
+      date: '2023-06-20T00:25:52.000Z',
+      productId: 7,
+      quantity: 1,
     },
     {
-      "saleId": 12,
-      "date": "2023-06-20T00:26:37.000Z",
-      "productId": 7,
-      "quantity": 1
+      saleId: 12,
+      date: '2023-06-20T00:26:37.000Z',
+      productId: 7,
+      quantity: 1,
     },
     {
-      "saleId": 13,
-      "date": "2023-06-20T00:29:02.000Z",
-      "productId": 7,
-      "quantity": 1
+      saleId: 13,
+      date: '2023-06-20T00:29:02.000Z',
+      productId: 7,
+      quantity: 1,
     },
     {
-      "saleId": 14,
-      "date": "2023-06-20T00:29:51.000Z",
-      "productId": 7,
-      "quantity": 1
-    }
+      saleId: 14,
+      date: '2023-06-20T00:29:51.000Z',
+      productId: 7,
+      quantity: 1,
+    },
 ];
 
-const salesCreateMock = 
-[
+const salesCreateMock = [
   {
-    "id": 10,
-    "itemsSold": [
+    id: 10,
+    itemsSold: [
       {
-        "productId": 7,
-        "quantity": 1
-      }
-    ]
-  }
+        productId: 7,
+        quantity: 1,
+      },
+    ],
+  },
 ];
 
 const soldItem = {
@@ -60,7 +58,4 @@ const returnSaleData = {
   message: soldItem,
 };
 
-
-
-
-module.exports = { salesMock, salesCreateMock, soldItem, returnSaleData};
+module.exports = { salesMock, salesCreateMock, soldItem, returnSaleData };

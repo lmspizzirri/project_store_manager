@@ -24,8 +24,8 @@ const getById = async (id) => {
 
 const create = async (info) => {
     const querySales = 'INSERT INTO sales (date) VALUES (NOW())';
-    const querySalesProducts = (
-        'INSERT INTO sales_products (product_id, sale_id, quantity) VALUES ')+info.map((_) => ('(?, ?, ?)')).join(', ')+';';
+    const querySalesProducts = `INSERT INTO sales_products (product_id, sale_id, quantity) 
+        VALUES ${info.map((_) => ('(?, ?, ?)')).join(', ')};`;
         const [{ insertId }] = await connection.execute(querySales);
     const params = info.flatMap((product) => [product.productId, insertId, product.quantity]);
     await connection.execute(querySalesProducts, params);

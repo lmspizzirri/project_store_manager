@@ -13,7 +13,7 @@ const getById = async (id) => {
 const create = async (name) => {
     const query = 'INSERT INTO products (name) VALUES (?)';
     const [{ insertId }] = await connection.execute(query, [name]);
-    return insertId ;
+    return insertId;
 };
 
 const update = async (id, name) => {

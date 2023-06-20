@@ -6,10 +6,10 @@ const salesModel = require('../../../src/models/salesModel');
 const salesService = require('../../../src/services/salesService');
 const { salesMock } = require('../mocks/sales.mock');
 
-describe('Testes da camada Service de Vendas', () => {
-    afterEach(() => sinon.restore());
-    describe('Teste da função getAll', () => {
-        it('Retorna a lista com todos as vendas', async () => {
+describe('Testes da camada Service de Vendas', function () {
+    afterEach(function () { return sinon.restore(); });
+    describe('Teste da função getAll', function () {
+        it('Retorna a lista com todos as vendas', async function () {
             // ARRANGE
             sinon.stub(salesModel, 'getAll').resolves(salesMock);
             // ACT
@@ -19,8 +19,8 @@ describe('Testes da camada Service de Vendas', () => {
         });
     });
 
-    describe('Teste da função getById', () => {
-        it('Retorna um objeto da venda pesquisada pelo id', async () => {
+    describe('Teste da função getById', function () {
+        it('Retorna um objeto da venda pesquisada pelo id', async function () {
             // ARRANGE
             sinon.stub(salesModel, 'getById').resolves(salesMock[0]);
             // ACT
@@ -50,8 +50,8 @@ describe('Testes da camada Service de Vendas', () => {
         // });
     // });
 
-    describe('Teste da função drop', () => {
-        it('Retorna type null quando sucesso', async () => {
+    describe('Teste da função drop', function () {
+        it('Retorna type null quando sucesso', async function () {
             // ARRANGE
             sinon.stub(salesModel, 'drop').resolves(1);
             // ACT
@@ -59,7 +59,7 @@ describe('Testes da camada Service de Vendas', () => {
              // ASSERT
             expect(result).to.deep.equal({ type: null });
         });
-        it('Retorna product not found', async () => {
+        it('Retorna product not found', async function () {
             // ARRANGE
             sinon.stub(salesModel, 'drop').resolves(0);
             // ACT

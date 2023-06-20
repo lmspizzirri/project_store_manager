@@ -30,7 +30,6 @@ const update = async (req, res) => {
     return res.status(200).json(message);
   };
   
-
 const drop = async (req, res) => {
     const { id } = req.params;
     const { type, message } = await salesService.drop(id);

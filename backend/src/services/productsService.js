@@ -12,15 +12,15 @@ const getById = async (id) => {
 };
 
 const create = async (name) => {
-    if(!name) {
-        return { type: '400', message: '"name" is required'}
+    if (!name) {
+        return { type: '400', message: '"name" is required' };
     }
     const { type, message } = nameValidation(name);
     if (type) {
         return { type, message };
     }
     const result = await productsModel.create(name);
-    return { type: null, message: { id: result, name: name } };
+    return { type: null, message: { id: result, name } };
 };
 
 const update = async (id, name) => {

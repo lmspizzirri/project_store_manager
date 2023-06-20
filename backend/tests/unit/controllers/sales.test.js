@@ -7,14 +7,13 @@ const { expect } = chai;
 const sinon = require('sinon');
 const salesService = require('../../../src/services/salesService');
 const salesController = require('../../../src/controllers/salesController');
-const { salesMock, salesCreateMock, soldItem, returnSaleData } = require('../mocks/sales.mock');
+const { salesMock, salesCreateMock } = require('../mocks/sales.mock');
 
-describe('Testes da camada controller de Vendas', () => {
+describe('Testes da camada controller de Vendas', function () {
+    afterEach(function () { return sinon.restore(); });
 
-    afterEach(() => sinon.restore());
-
-    describe('Teste da função getAll', () => {
-        it('Retorna a lista com todos as vendas', async () => {
+    describe('Teste da função getAll', function () {
+        it('Retorna a lista com todos as vendas', async function () {
             const req = {};
             const res = {};     
             res.status = sinon.stub().returns(res);
@@ -26,10 +25,9 @@ describe('Testes da camada controller de Vendas', () => {
             // ASSERT
             expect(res.status).to.be.calledWith(200);
             expect(res.json).to.be.calledWithExactly(salesMock);
-
         });
     });
-    describe('Teste da função getById', () => {
+    describe('Teste da função getById', function () {
         // it('Retorna lista com todas as vendas cadastradas', async () => {
         //     // ARRANGE
         //     const req = { params: { id: 1 }};
@@ -44,7 +42,7 @@ describe('Testes da camada controller de Vendas', () => {
         //     expect(res.json).to.have.been.calledWith(soldItem);
         //   });
         
-        it('Retorna product not found caso o id nao esteja na lista', async () => {
+        it('Retorna product not found caso o id nao esteja na lista', async function () {
             const req = { params: { id: 1 } };
             const res = {};
             res.status = sinon.stub().returns(res);
@@ -58,11 +56,9 @@ describe('Testes da camada controller de Vendas', () => {
             expect(res.json).to.be.calledWithExactly({ message: 'Sale not found' });
         });
     });
-    
-    
 
-    describe('Teste da função create', () => {
-        it('Retorna a info da venda criada', async () => {
+    describe('Teste da função create', function () {
+        it('Retorna a info da venda criada', async function () {
             const req = { body: { productId: 7, quantity: 1 } };
             const res = {};
             res.status = sinon.stub().returns(res);
@@ -76,7 +72,7 @@ describe('Testes da camada controller de Vendas', () => {
             expect(res.json).to.be.calledWithExactly(salesCreateMock[0]);
         });
 
-        it('Retorna sale not found caso o id nao esteja na lista', async () => {
+        it('Retorna sale not found caso o id nao esteja na lista', async function () {
             const req = { body: { productId: 99, quantity: 1 } };
             const res = {};
             res.status = sinon.stub().returns(res);
@@ -91,8 +87,8 @@ describe('Testes da camada controller de Vendas', () => {
         });
     });
 
-    describe('Teste da função drop', () => {
-        it('Retorna o codigo 204 de sucesso', async () => {
+    describe('Teste da função drop', function () {
+        it('Retorna o codigo 204 de sucesso', async function () {
             const req = { params: { id: 1 } };
             const res = {};     
             res.status = sinon.stub().returns(res);
@@ -104,7 +100,7 @@ describe('Testes da camada controller de Vendas', () => {
             // ASSERT
             expect(res.status).to.be.calledWith(204);
         });
-        it('Retorna sale not found caso o id nao esteja na lista', async () => {
+        it('Retorna sale not found caso o id nao esteja na lista', async function () {
             const req = { body: { name: 'ProjetoX' }, params: { id: 99 } };
             const res = {};
             res.status = sinon.stub().returns(res);
@@ -118,6 +114,4 @@ describe('Testes da camada controller de Vendas', () => {
             expect(res.json).to.be.calledWithExactly({ message: 'Sales not found' });
         });
     });
-
-
 });

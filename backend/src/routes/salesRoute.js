@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const salesController = require('../controllers/salesController');
-const { productIdValidation, quantityValidation, quantityReceived } = require('../middlewares/salePostValidation');
+const { productIdValidation, 
+    quantityValidation, quantityReceived } = require('../middlewares/salePostValidation');
 
 const salesRouter = Router();
 salesRouter.get('/', salesController.getAll);
@@ -13,10 +14,12 @@ salesRouter.post(
     salesController.create,
 );
 salesRouter.delete('/:id', salesController.drop);
-salesRouter.put('/:saleId/products/:productId/quantity',
+salesRouter.put(
+    '/:saleId/products/:productId/quantity',
     quantityReceived,
     quantityValidation,
     productIdValidation,
-salesController.update);
+salesController.update,
+);
 
 module.exports = salesRouter;

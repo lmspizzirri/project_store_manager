@@ -8,7 +8,7 @@ const getAll = async () => {
 
 const getById = async (id) => {
     const result = await salesModel.getById(id);
-    if (!result || result.length === 0) { return { type: 404, message: 'Sale not found' };} 
+    if (!result || result.length === 0) { return { type: 404, message: 'Sale not found' }; } 
     return { type: null, message: result };
 };
 
@@ -18,7 +18,7 @@ const create = async (products) => {
         return { type: 404, message: 'Product not found' };
     }
     const result = await salesModel.create(products);
-    return { type: null, message: result};
+    return { type: null, message: result };
 };
 
 const update = async (id, itemsArray) => {
@@ -27,7 +27,7 @@ const update = async (id, itemsArray) => {
       return { type: 404, message: 'Product not found' };
     }
   
-    const affectedRows = await salesProductsModel.drop(id);
+    const affectedRows = await salesModel.drop(id);
     if (!affectedRows) {
       return { type: 404, message: 'Sale not found' };
     }
@@ -36,7 +36,6 @@ const update = async (id, itemsArray) => {
     const message = { saleId: id, itemsUpdated };
     return { type: null, message };
   };
-  
 
 const drop = async (id) => {
     const result = await salesModel.drop(id);
