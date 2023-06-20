@@ -16,9 +16,9 @@ services:
       MYSQL_HOSTNAME: db
       MYSQL_PORT: 3306
       PORT: 3001
-    # depends_on:
-    #   db:
-    #     # condition: service_healthy
+    depends_on:
+      db:
+        # condition: service_healthy
   db:
     image: mysql:8.0.32
     container_name: store_manager_db

@@ -4,7 +4,9 @@ const { expect } = chai;
 const sinon = require('sinon');
 const salesModel = require('../../../src/models/salesModel');
 const salesService = require('../../../src/services/salesService');
+const productsModel = require('../../../src/models/productsModel');
 const { salesMock, searchResult } = require('../mocks/sales.mock');
+const { allProducts } = require('../mocks/product.mock');
 
 describe('Testes da camada Service de Vendas', function () {
     afterEach(function () { return sinon.restore(); });
@@ -40,15 +42,15 @@ describe('Testes da camada Service de Vendas', function () {
     });
 
     describe('Teste da função create', function () {
-        // it('Retorna o id da venda criada', async function () {
-        //     // ARRANGE
-        //     sinon.stub(salesModel, 'create').resolves(1);
-        //     sinon.stub(salesModel, 'getAll').resolves(1);
-        //     // ACT
-        //     const result = await salesService.create([{ productId: 1, quantity: 1 }]);
-        //      // ASSERT
-        //     expect(result).to.deep.equal({ type: null, message: 1 });
-        // });
+        it('Retorna o id da venda criada', async function () {
+            // ARRANGE
+            sinon.stub(salesModel, 'create').resolves(1);
+            sinon.stub(productsModel, 'getAll').resolves(allProducts);
+            // ACT
+            const result = await salesService.create([{ productId: 1, quantity: 1 }]);
+             // ASSERT
+            expect(result).to.deep.equal({ type: null, message: 1 });
+        });
 
         // it('Retorna product not found', async function () {
         //     // ARRANGE
