@@ -20,6 +20,7 @@ const productsMock = [
       name: 'Espinafre',
     },
   ];
+
 const allProducts = [
   {
     id: 1,

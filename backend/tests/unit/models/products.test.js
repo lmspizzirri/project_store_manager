@@ -12,12 +12,12 @@ describe('Testes da camada model de Produtos', function () {
     describe('Teste da função getAll', function () {
         it('Retorna a lista com todos os produtos', async function () {
             // ARRANGE
-            sinon.stub(connection, 'execute').resolves([productsMock]);
+            sinon.stub(connection, 'execute').resolves([allProducts]);
             // ACT
             const result = await productsModel.getAll();
             // ASSERT
             expect(result).to.be.an('array');
-            expect(result).to.be.deep.equal(productsMock);
+            expect(result).to.be.deep.equal(allProducts);
         });
     });
 

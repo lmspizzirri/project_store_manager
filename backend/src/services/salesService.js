@@ -21,6 +21,12 @@ const create = async (products) => {
     return { type: null, message: result };
 };
 
+const update = async (id, data) => {
+    const result = await salesModel.update(id, data);
+    if (!result) { return { type: 404, message: 'Product not found in sale' }; }
+    return { type: null, message: result };
+};
+
 const drop = async (id) => {
     const result = await salesModel.drop(id);
     if (!result) {
@@ -29,4 +35,4 @@ const drop = async (id) => {
     return { type: null };
 };
 
-module.exports = { getAll, getById, create, drop };
+module.exports = { getAll, getById, create, drop, update };

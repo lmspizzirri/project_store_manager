@@ -26,10 +26,19 @@ const create = async (info) => {
     const querySales = 'INSERT INTO sales (date) VALUES (NOW())';
     const querySalesProducts = `INSERT INTO sales_products (product_id, sale_id, quantity) 
         VALUES ${info.map((_) => ('(?, ?, ?)')).join(', ')};`;
-        const [{ insertId }] = await connection.execute(querySales);
+    const [{ insertId }] = await connection.execute(querySales);
     const params = info.flatMap((product) => [product.productId, insertId, product.quantity]);
     await connection.execute(querySalesProducts, params);
     return insertId;
+};
+const update = async (id, data) => {
+    const { productId, quantity } = data;
+    const query = 'UPDATE sales_products SET quantity = ? WHERE salesId = ? and productId = ?';
+    const queryDate = 'UPDATE sales SET date = ? WHERE salesId = ?';
+    const dateNow = Date.now();
+    const [{ affectedRows }] = await connection.execute(query, [quantity, id, productId]);
+    await connection.execute(queryDate, [dateNow, id]);
+    return affectedRows;
 };
 
 const drop = async (id) => {
@@ -38,4 +47,4 @@ const drop = async (id) => {
     return affectedRows;
 };
 
-module.exports = { getAll, getById, create, drop };
+module.exports = { getAll, getById, create, drop, update };

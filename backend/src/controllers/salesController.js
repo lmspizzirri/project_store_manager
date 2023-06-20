@@ -22,6 +22,14 @@ const create = async (req, res) => {
     });
 };
 
+const update = async (req, res) => {
+    const { saleId, productId } = req.params;
+    const { quantity } = req.body;
+    const { type, message } = await salesService.update(saleId, { productId, quantity });
+    if (type) return res.status(type).json({ message });
+    return res.status(type).json({ message });
+};
+
 const drop = async (req, res) => {
     const { id } = req.params;
     const { type, message } = await salesService.drop(id);
@@ -31,4 +39,4 @@ const drop = async (req, res) => {
     return res.status(204).end();
 };
 
-module.exports = { getAll, getById, create, drop };
+module.exports = { getAll, getById, create, drop, update };

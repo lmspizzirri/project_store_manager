@@ -8,16 +8,17 @@ services:
     command: run dev # roda aplicação com nodemon
     volumes:
       # vincula pasta local com a dentro do container
-      - ./:/app
+      - ./backend/src:/app/src
+      - ./backend/tests:/app/tests
     environment:
       MYSQL_USER: root
       MYSQL_PASSWORD: password
       MYSQL_HOSTNAME: db
       MYSQL_PORT: 3306
       PORT: 3001
-    depends_on:
-      db:
-        condition: service_healthy
+    # depends_on:
+    #   db:
+    #     # condition: service_healthy
   db:
     image: mysql:8.0.32
     container_name: store_manager_db

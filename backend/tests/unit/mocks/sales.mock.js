@@ -63,4 +63,18 @@ const searchResult = [
   },
 ];
 
-module.exports = { salesMock, salesCreateMock, soldItem, returnSaleData, searchResult };
+const getByIdMock = [
+     {
+        date: '2023-06-20T08:46:21.000Z',
+        productId: 3,
+        quantity: 15,
+      },
+    ];
+
+module.exports = { 
+  salesMock, 
+  salesCreateMock, 
+  soldItem, 
+  returnSaleData, 
+  searchResult, 
+  getByIdMock };

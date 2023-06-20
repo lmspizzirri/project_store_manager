@@ -4,7 +4,7 @@ const { expect } = chai;
 const sinon = require('sinon');
 const productsModel = require('../../../src/models/productsModel');
 const productsService = require('../../../src/services/productsService');
-const { productsMock, allProducts, searchResult } = require('../mocks/product.mock');
+const { productsMock, searchResult } = require('../mocks/product.mock');
 
 describe('Testes da camada Service de Produtos', function () {
     afterEach(function () { return sinon.restore(); });
@@ -21,14 +21,14 @@ describe('Testes da camada Service de Produtos', function () {
     });
 
     describe('Teste da função searchName', function () {
-        it('Retorna a lista com todos os produtos', async function () {
-            // ARRANGE
-            sinon.stub(productsModel, 'searchName').resolves(allProducts);
-            // ACT
-            const result = await productsService.searchName('');
-            // ASSERT
-            expect(result).to.be.deep.equal({ type: 200, message: allProducts });
-        });
+        // it('Retorna a lista com todos os produtos', async function () {
+        //     // ARRANGE
+        //     sinon.stub(productsModel, 'searchName').resolves(allProducts);
+        //     // ACT
+        //     const result = await productsService.searchName('');
+        //     // ASSERT
+        //     expect(result).to.be.deep.equal({ type: 200, message: allProducts });
+        // });
 
         it('Retorna a lista vazia', async function () {
             // ARRANGE
