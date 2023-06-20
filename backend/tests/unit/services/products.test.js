@@ -70,15 +70,25 @@ describe('Testes da camada Service de Produtos', function () {
             expect(result).to.deep.equal({ type: null, message: { id: 1, name: 'Xablau' } });
         });
 
-        // it('Retorna erro de name', async function () {
-        //     // ARRANGE
-        //     sinon.stub(productsModel, 'create').resolves(1);
-        //     // ACT
-        //     const result = await productsService.create('Xa');
-        //      // ASSERT
-        //     expect(result).to.deep
-        //         .equal({ type: 422, message: 'name length must be at least 5 characters long' });
-        // });
+        it('Retorna name is required', async function () {
+            // ARRANGE
+            sinon.stub(productsModel, 'create').resolves(1);
+            // ACT
+            const result = await productsService.create('');
+             // ASSERT
+            expect(result).to.deep
+                .equal({ type: 400, message: '"name" is required' });
+        });
+
+        it('Retorna erro de name', async function () {
+            // ARRANGE
+            sinon.stub(productsModel, 'create').resolves(1);
+            // ACT
+            const result = await productsService.create('Xa');
+             // ASSERT
+            expect(result).to.deep
+                .equal({ type: 422, message: '"name" length must be at least 5 characters long' });
+        });
     });
 
     describe('Teste da função update', function () {
@@ -107,14 +117,14 @@ describe('Testes da camada Service de Produtos', function () {
              // ASSERT
             expect(result).to.be.deep.equal({ type: 404, message: 'Product not found' });
         });
-        // it('Name check', async function () {
-        //     // ARRANGE
-        //     sinon.stub(productsModel, 'update').resolves(0);
-        //     // ACT
-        //     const result = await productsService.update({ id: 99 });
-        //      // ASSERT
-        //     expect(result).to.deep.equal({ type: 400, message: 'name is required' });
-        // });
+        it('Name check', async function () {
+            // ARRANGE
+            sinon.stub(productsModel, 'update').resolves(0);
+            // ACT
+            const result = await productsService.update({ id: 99 });
+             // ASSERT
+            expect(result).to.deep.equal({ type: 400, message: '"name" is required' });
+        });
     });
 
     describe('Teste da função drop', function () {

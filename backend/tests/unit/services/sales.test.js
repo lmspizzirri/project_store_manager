@@ -4,7 +4,7 @@ const { expect } = chai;
 const sinon = require('sinon');
 const salesModel = require('../../../src/models/salesModel');
 const salesService = require('../../../src/services/salesService');
-const { salesMock } = require('../mocks/sales.mock');
+const { salesMock, searchResult } = require('../mocks/sales.mock');
 
 describe('Testes da camada Service de Vendas', function () {
     afterEach(function () { return sinon.restore(); });
@@ -20,36 +20,42 @@ describe('Testes da camada Service de Vendas', function () {
     });
 
     describe('Teste da função getById', function () {
-        // it('Retorna um objeto da venda pesquisada pelo id', async function () {
-        //     // ARRANGE
-        //     sinon.stub(salesModel, 'getById').resolves(salesMock[0]);
-        //     // ACT
-        //     const result = await salesService.getById(7);
-        //     // ASSERT
-        //     expect(result).to.be.deep.equal(salesMock[0]);
-        // });
+        it('Retorna um objeto da venda pesquisada pelo id', async function () {
+            // ARRANGE
+            sinon.stub(salesModel, 'getById').resolves(searchResult);
+            // ACT
+            const result = await salesService.getById(2);
+            // ASSERT
+            expect(result).to.be.deep.equal({ type: null, message: searchResult });
+        });
+
+        it('Retorna sale not found', async function () {
+            // ARRANGE
+            // ACT
+            const result = await salesService.getById(8);
+            // ASSERT
+            expect(result).to.be.deep.equal({ type: 404, message: 'Sale not found' });
+        });
     });
 
-    // Quebrou depois da refatoração, preciso ver!
-    // describe('Teste da função create', () => {
-    //     it('Retorna o id da venda criada', async () => {
-    //         // ARRANGE
-    //         sinon.stub(salesModel, 'create').resolves(1);
-    //         // ACT
-    //         const result = await salesService.create({ items: { productId:7 , quantity:1 } });
-    //          // ASSERT
-    //         expect(result).to.deep.equal({ type: null, message: 1 });
-    //     });
+    describe('Teste da função create', function () {
+        it('Retorna o id da venda criada', async function () {
+            // ARRANGE
+            sinon.stub(salesModel, 'create').resolves(1);
+            // ACT
+            const result = await salesService.create([{ productId: 1, quantity: 1 }]);
+             // ASSERT
+            expect(result).to.deep.equal({ type: null, message: 1 });
+        });
 
-        // it('Retorna erro de name', async () => {
-        //     // ARRANGE
-        //     sinon.stub(salesModel, 'create').resolves(1);
-        //     // ACT
-        //     const result = await salesService.create('Xa');
-        //      // ASSERT
-        //     expect(result).to.deep.equal({ type: 422, message: 'name length must be at least 5 characters long' });
-        // });
-    // });
+        it('Retorna product not found', async function () {
+            // ARRANGE
+            // ACT
+            const result = await salesService.create([{ productId: 8, quantity: 1 }]);
+             // ASSERT
+            expect(result).to.deep.equal({ type: 404, message: 'Product not found' });
+        });
+    });
 
     describe('Teste da função drop', function () {
         it('Retorna type null quando sucesso', async function () {

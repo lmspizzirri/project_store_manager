@@ -7,7 +7,7 @@ const { expect } = chai;
 const sinon = require('sinon');
 const salesService = require('../../../src/services/salesService');
 const salesController = require('../../../src/controllers/salesController');
-const { salesMock } = require('../mocks/sales.mock');
+const { salesMock, returnSaleData, soldItem, salesCreateMock } = require('../mocks/sales.mock');
 
 describe('Testes da camada controller de Vendas', function () {
     afterEach(function () { return sinon.restore(); });
@@ -28,19 +28,19 @@ describe('Testes da camada controller de Vendas', function () {
         });
     });
     describe('Teste da função getById', function () {
-        // it('Retorna lista com todas as vendas cadastradas', async () => {
-        //     // ARRANGE
-        //     const req = { params: { id: 1 }};
-        //     const res = {};
-        //     res.status = sinon.stub().returns(res);
-        //     res.json = sinon.stub().returns();
-        //     sinon.stub(salesService, 'getById').resolves(returnSaleData);
-        //     // ACT
-        //     await salesController.getById(req, res);
-        //     // ASSERT
-        //     expect(res.status).to.have.been.calledWith(200);
-        //     expect(res.json).to.have.been.calledWith(soldItem);
-        //   });
+        it('Retorna lista com todas as vendas cadastradas', async function () {
+            // ARRANGE
+            const req = { params: { id: 1 } };
+            const res = {};
+            res.status = sinon.stub().returns(res);
+            res.json = sinon.stub().returns();
+            sinon.stub(salesService, 'getById').resolves(returnSaleData);
+            // ACT
+            await salesController.getById(req, res);
+            // ASSERT
+            expect(res.status).to.have.been.calledWith(200);
+            expect(res.json).to.have.been.calledWith(soldItem);
+          });
         
         it('Retorna product not found caso o id nao esteja na lista', async function () {
             const req = { params: { id: 1 } };
@@ -58,19 +58,19 @@ describe('Testes da camada controller de Vendas', function () {
     });
 
     describe('Teste da função create', function () {
-        // it('Retorna a info da venda criada', async function () {
-        //     const req = { body: { productId: 7, quantity: 1 } };
-        //     const res = {};
-        //     res.status = sinon.stub().returns(res);
-        //     res.json = sinon.stub().returns();   
-        //     // ARRANGE
-        //     sinon.stub(salesService, 'create').resolves({ type: null, message: 10 });
-        //     // ACT
-        //     await salesController.create(req, res);
-        //     // ASSERT
-        //     expect(res.status).to.be.calledWith(201);
-        //     expect(res.json).to.be.calledWithExactly(salesCreateMock[0]);
-        // });
+        it('Retorna a info da venda criada', async function () {
+            const req = { body: { productId: 1, quantity: 1 } };
+            const res = {};
+            res.status = sinon.stub().returns(res);
+            res.json = sinon.stub().returns();   
+            // ARRANGE
+            sinon.stub(salesService, 'create').resolves({ type: null, message: 10 });
+            // ACT
+            await salesController.create(req, res);
+            // ASSERT
+            expect(res.status).to.be.calledWith(201);
+            expect(res.json).to.be.calledWithExactly(salesCreateMock);
+        });
 
         it('Retorna sale not found caso o id nao esteja na lista', async function () {
             const req = { body: { productId: 99, quantity: 1 } };

@@ -31,17 +31,14 @@ const salesMock = [
     },
 ];
 
-const salesCreateMock = [
-  {
+const salesCreateMock = {
     id: 10,
-    itemsSold: [
+    itemsSold:
       {
-        productId: 7,
+        productId: 1,
         quantity: 1,
       },
-    ],
-  },
-];
+  };
 
 const soldItem = {
   id: 1,
@@ -58,4 +55,12 @@ const returnSaleData = {
   message: soldItem,
 };
 
-module.exports = { salesMock, salesCreateMock, soldItem, returnSaleData };
+const searchResult = [
+  {
+    date: '2023-06-20T08:46:21.000Z',
+    productId: 3,
+    quantity: 15,
+  },
+];
+
+module.exports = { salesMock, salesCreateMock, soldItem, returnSaleData, searchResult };
