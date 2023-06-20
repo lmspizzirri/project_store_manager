@@ -30,6 +30,11 @@ const salesMock = [
       quantity: 1,
     },
 ];
+const getAllId = [
+  1,
+  2,
+  3,
+];
 
 const salesCreateMock = {
     id: 10,
@@ -71,7 +76,8 @@ const getByIdMock = [
       },
     ];
 
-module.exports = { 
+module.exports = {
+  getAllId,
   salesMock, 
   salesCreateMock, 
   soldItem, 

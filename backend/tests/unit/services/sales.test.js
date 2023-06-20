@@ -43,6 +43,7 @@ describe('Testes da camada Service de Vendas', function () {
         // it('Retorna o id da venda criada', async function () {
         //     // ARRANGE
         //     sinon.stub(salesModel, 'create').resolves(1);
+        //     sinon.stub(salesModel, 'getAll').resolves(1);
         //     // ACT
         //     const result = await salesService.create([{ productId: 1, quantity: 1 }]);
         //      // ASSERT
